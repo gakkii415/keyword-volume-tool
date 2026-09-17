@@ -1,0 +1,12 @@
+{
+  "name": "keyword-volume-tool",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node --check app.js && node --check api/_googleAds.js && node --check api/health.js && node --check api/search.js && node --check api/locations.js"
+  }
+}
