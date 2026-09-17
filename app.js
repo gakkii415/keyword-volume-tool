@@ -17,6 +17,7 @@ const els = {
   openSettings: document.querySelector('#openSettings'),
   settingsDialog: document.querySelector('#settingsDialog'),
   settingsForm: document.querySelector('#settingsForm'),
+  closeSettings: document.querySelector('#closeSettings'),
   backendUrl: document.querySelector('#backendUrl'),
   accessToken: document.querySelector('#accessToken'),
   testConnection: document.querySelector('#testConnection'),
@@ -398,13 +399,14 @@ function exportCsv() {
   }
   const csv = '\ufeff' + rows.map(row => row.map(csvEscape).join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
+  link.href = url;
   link.download = `keyword-volume-${new Date().toISOString().slice(0, 10)}.csv`;
   document.body.append(link);
   link.click();
   link.remove();
-  URL.revokeObjectURL(link.href);
+  URL.revokeObjectURL(url);
 }
 
 async function runSearch() {
@@ -438,7 +440,10 @@ async function runSearch() {
       })
     });
     currentResults = payload.results || [];
-    els.resultsMeta.textContent = `${els.locationInput.value} · ${els.language.options[els.language.selectedIndex].text} · ${currentResults.length}件`;
+    const requested = Number(payload.meta?.requestedKeywords ?? keywords.length);
+    const returned = Number(payload.meta?.returnedKeywords ?? currentResults.length);
+    const mergedNote = requested > returned ? ` · ${requested - returned}件は類似語として統合` : '';
+    els.resultsMeta.textContent = `${els.locationInput.value} · ${els.language.options[els.language.selectedIndex].text} · ${currentResults.length}件${mergedNote}`;
     renderResults();
   } catch (error) {
     currentResults = [];
@@ -472,6 +477,10 @@ els.openSettings.addEventListener('click', () => {
   els.accessToken.value = settings.accessToken;
   setSettingsStatus('');
   els.settingsDialog.showModal();
+});
+
+els.closeSettings.addEventListener('click', () => {
+  els.settingsDialog.close();
 });
 
 els.settingsForm.addEventListener('submit', event => {
