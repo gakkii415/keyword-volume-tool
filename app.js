@@ -37,7 +37,7 @@ let locationAbort = null;
 
 function loadSettings() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { backendUrl: '', accessToken: '' };
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { backendUrl: 'https://keyword-volume-tool-test11-9b33.vercel.app', accessToken: '' };
   } catch {
     return { backendUrl: '', accessToken: '' };
   }
