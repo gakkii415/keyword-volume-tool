@@ -74,13 +74,19 @@ GitHub Pages:
 https://gakkii415.github.io/keyword-volume-tool/
 ```
 
-1. 右上の「接続設定」を開く
-2. API URL に Vercel の URL を入力（例 `https://xxxxx.vercel.app`）
-3. アクセスキーに `APP_ACCESS_TOKEN` と同じ値を入力
-4. 「接続確認」
-5. 「Google Ads API 接続済み」になれば完了
+API URL は本番 Vercel API の
 
-API URL とアクセスキーはブラウザの `localStorage` にだけ保存され、GitHub リポジトリには保存されません。
+```text
+https://keyword-volume-tool-test11-9b33.vercel.app
+```
+
+が既定値として入っています。
+
+`APP_ACCESS_TOKEN` を設定した場合だけ、右上の「接続設定」を開き、アクセスキーに同じ値を入力して「接続確認」を押します。
+
+「Google Ads API 接続済み」になれば完了です。
+
+API URL とアクセスキーの上書き値はブラウザの `localStorage` にだけ保存され、GitHub リポジトリには保存されません。
 
 ## 取得できるデータ
 
